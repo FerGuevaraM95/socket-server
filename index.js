@@ -13,13 +13,14 @@ app.use(express.static(__dirname + '/public'))
 
 io.on('connection', (socket) => {
   
-  socket.emit('mensaje-bienvendida', {
-    msg: "bienvenido al server",
-    date: new Date()
-  });
+  // socket.emit('mensaje-bienvendida', {
+  //   msg: "bienvenido al server",
+  //   date: new Date()
+  // });
 
-  socket.on('mensaje-cliente', (data) => {
-    console.log(data);
+  socket.on('message-to-server', (data) => {
+    // console.log(data);
+    io.emit('message-to-server', data)
   });
 
 });

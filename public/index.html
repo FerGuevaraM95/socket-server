@@ -13,14 +13,14 @@
   <hr>
 
 
-  <form class="myForm" action="">
+  <form id="myForm" action="">
     <div class="row">
       <div class="col-8">
-        <input class="form-control" type="text" placeholder="Mensaje">
+        <input class="form-control" id="txtMessage" type="text" placeholder="Mensaje">
       </div>
 
       <div class="col-4">
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" type="submit">
           Envíar
         </button>
       </div>
@@ -28,13 +28,8 @@
   </form>
 
   <div class="row">
-    <div class="col">
+    <div class="col mt-2">
       <ul id="myMessages">
-        <li>hola</li>
-        <li>como</li>
-        <li>estas</li>
-        <li>?</li>
-        <li>😁</li>
       </ul>
     </div>
   </div>
@@ -45,11 +40,25 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.js" integrity="sha512-vGcPDqyonHb0c11UofnOKdSAt5zYRpKI4ow+v6hat4i96b7nHSn8PQyk0sT5L9RECyksp+SztCPP6bqeeGaRKg==" crossorigin="anonymous"></script>
   <script>
     const socket = io('http://localhost:8080');
+
+    // Selectors
     const form = document.querySelector('#myForm');
     const messages = document.querySelector('#myMessages');
+    const txtMessage = document.querySelector('#txtMessage');
 
-    socket.on('mensaje-bienvendida', (data) => {
-      console.log(data);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const newMessage = txtMessage.value;
+
+      // console.log({newMessage});
+      socket.emit('message-to-server', {text: newMessage});
+    });
+
+
+
+    socket.on('message-to-server', (data) => {
+      messages.innerHTML += `<li>${data.text}</li>`;
     });
 
     // setTimeout(() => {
