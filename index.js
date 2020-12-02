@@ -16,7 +16,11 @@ io.on('connection', (socket) => {
   socket.emit('mensaje-bienvendida', {
     msg: "bienvenido al server",
     date: new Date()
-  })
+  });
+
+  socket.on('mensaje-cliente', (data) => {
+    console.log(data);
+  });
 
 });
 
